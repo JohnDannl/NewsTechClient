@@ -1,6 +1,7 @@
 package ustc.newstech;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.app.ActionBar;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,9 +18,9 @@ public class ObjectFragment extends Fragment  {
 	 public View onCreateView(LayoutInflater inflater,
 	         ViewGroup container, Bundle savedInstanceState) {
 	     // The last two arguments ensure LayoutParams are inflated
-	     // properly.
+	     // properly.		
 	     View rootView = inflater.inflate(R.layout.fragment_object, container, false);
-	     
+		 initPageContent();
 	     Bundle args = getArguments();
 	     ImageView imageView =(ImageView)rootView.findViewById(R.id.imageId);
 			imageView.setImageDrawable(imageS[args.getInt(ARG_OBJECT)]);

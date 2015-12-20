@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_entry">
+        <item >最新</item>
+        <item >最热</item>
+    </string-array>
+    <string-array name="category_value">
+        <item >newest</item>
+        <item >hot</item>
+    </string-array>
+</resources>

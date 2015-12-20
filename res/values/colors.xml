@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>  
+    <color name="black">#ff000000</color>
+    <color name="black_light">#ff222222</color>
+    <color name="activated">#3b3b3b</color>
+	<color name="unfocused">#101010</color>  
+	<color name="pressed">#6b6b6b</color>  
+	<color name="selected">#6b6b6b</color>  
+	<color name="focused">#6b6b6b</color>  
+	<color name="blue_light">#ff6699cc</color>
+	<color name="blue_dark">#ff05537a</color>    
+    <color name="gray_light">#ff6b6b6b</color>
+    <color name="gray_dark">#ff3b3b3b</color>
+    <color name="gray">#ff505050</color>
+    <color name="transparent">#00000000</color>
+    <color name="dark_tangerine">#ffb22300</color>
+</resources>

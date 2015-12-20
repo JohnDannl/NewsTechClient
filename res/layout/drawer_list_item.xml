@@ -23,7 +23,9 @@
         android:layout_width="32dip"
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
-        android:layout_marginLeft="16dip"/>
+        android:layout_marginLeft="16dip"
+        android:layout_marginRight="16dip"
+        android:contentDescription="@string/hello_world"/>
     <TextView
 	    android:id="@+id/drawer_item_text"
 	    android:layout_width="match_parent"

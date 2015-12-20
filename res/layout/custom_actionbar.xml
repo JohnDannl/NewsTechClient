@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="horizontal">
+<!-- <ImageButton
+    android:layout_marginLeft="10dip"
+    android:id="@+id/drawer_btn"
+    android:layout_width="32dip"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_drawer"
+    android:onClick="drawer_btn_click"
+    android:contentDescription="@string/hello_world"/> -->
+<TextView
+    android:id="@+id/actionbar_title"
+    android:layout_width="0dip"
+    android:layout_weight="1"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textColor="#ffffff"
+    android:textSize="20sp" />
+<!-- <ImageButton 
+    android:layout_marginRight="10dip"    
+    android:layout_width="32dip"
+    android:layout_height="24dip"
+    android:background="@android:color/transparent"
+    android:contentDescription="@string/hello_world"/> -->
+</LinearLayout>

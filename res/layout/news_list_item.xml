@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/news_item_selector">
+    <!-- The nested linearLayout is necessary for item resizing -->
+    <LinearLayout android:id="@+id/news_item"
+        android:layout_width="match_parent"
+        android:layout_height="200dip" 
+        android:paddingTop="6dip"
+        android:paddingBottom="6dip"  
+        android:orientation="horizontal">
+        <RelativeLayout             
+		        android:layout_width="0dip"
+		        android:layout_weight="3"
+		        android:layout_height="match_parent">
+            <ustc.bitmap.ui.RecyclingImageView 
+		        android:id="@+id/news_thumb"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:layout_margin="6dip"
+		        android:scaleType="fitXY"/>               
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:layout_width="0dip"            
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:paddingLeft="6dip"
+            android:paddingRight="6dip">
+            <TextView 	                
+                android:id="@+id/news_title"
+                android:layout_width="match_parent"
+	    		android:layout_height="wrap_content"
+				android:layout_alignParentTop="true"
+                android:textColor="#ffffff"
+                android:textSize="16sp"/>
+           <RelativeLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">   
+                <TextView 	                    
+				    android:id="@+id/news_author"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_alignParentBottom="true"
+				    android:layout_alignParentLeft="true"
+				    android:textColor="#ffffff"
+				    android:textSize="14sp"/>               
+                <TextView 	                    
+				    android:id="@+id/news_ldtime"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_alignParentBottom="true"
+				    android:layout_alignParentRight="true"
+				    android:textColor="#ffffff"
+				    android:textSize="14sp"/>    				                     
+            </RelativeLayout>
+        </RelativeLayout> 
+	    
+    </LinearLayout>    
+</LinearLayout>
