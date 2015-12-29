@@ -39,7 +39,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewsListFragment extends Fragment{
-	public static final String ARG_CONTENT = "ustc.newstech.content";
+	public static final String TAG = "XXXNewslistfragment";
+	public static final String ARG_TYPE = "ustc.newstech.optype";
 	private String mtype=null;
 	private List<NewsInfo> newsInfoList=new ArrayList<NewsInfo>();
 	private XListView mListView=null;
@@ -56,7 +57,7 @@ public class NewsListFragment extends Fragment{
         screenHeight = displayMetrics.heightPixels;
         
 		Bundle args = getArguments();
-		mtype=args.getString(ARG_CONTENT, Constant.category[0]);
+		mtype=args.getString(ARG_TYPE, Constant.category[0]);
 		GetNewsInfo newsInfoTask=new GetNewsInfo();
         String reqUrl=Constant.newsHost+Constant.op_top+Constant.pa_numEq+"10"
 		+Constant.pa_mtypeEq+mtype;
@@ -81,7 +82,7 @@ public class NewsListFragment extends Fragment{
 //				Toast.makeText(getActivity(), "Selected:"+Integer.toString(position), Toast.LENGTH_SHORT).show();
 				//note:this position is started from 1 rather than 0
 				int selectedIndex=position-1;
-				clickNews(selectedIndex,Constant.mode_detail);				
+				clickNews(selectedIndex);				
 			}
 	     });
 	     mListView.setXListViewListener(new IXListViewListener(){
@@ -201,7 +202,7 @@ public class NewsListFragment extends Fragment{
 			}
 			@Override
 			protected void onPostExecute(List<NewsInfo> list){
-//				if(loadingDialog.isShowing())loadingDialog.dismiss();			
+//				if(loadingDialog.isShowing())loadingDialog.dismiss();	
 				if(list!=null){
 					/*for(NewsInfo item:list){
 						Log.d("XXXXXXXX", item.getTitle()+"->"+item.getSource());					
@@ -241,9 +242,10 @@ public class NewsListFragment extends Fragment{
 				}
 			}
 		}
-	 private void clickNews(int position,String click_mode){
+	 private void clickNews(int position){
 		 Intent intent=new Intent(getActivity(),BrowserActivity.class);
 		 intent.putExtra(BrowserActivity.ARG_URL,newsInfoList.get(position).getUrl());
+		 intent.putExtra(BrowserActivity.ARG_NEWSID, newsInfoList.get(position).getNewsid());
 		 getActivity().startActivity(intent);
 	 }
 	 private class NewsAdapter extends BaseAdapter{

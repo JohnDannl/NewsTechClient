@@ -141,7 +141,7 @@ public class SearchFragment extends Fragment {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				//note:this position is started from 1 rather than 0
-				clickNews(position-1,Constant.mode_detail);
+				clickNews(position-1);
 			}	    	
 	    });
 		return rootView;
@@ -260,9 +260,10 @@ public class SearchFragment extends Fragment {
 		}
 		 
 	 }	
-	private void clickNews(int position,String click_mode){
+	private void clickNews(int position){
 		 Intent intent=new Intent(getActivity(),BrowserActivity.class);
 		 intent.putExtra(BrowserActivity.ARG_URL,newsInfoList.get(position).getUrl());
+		 intent.putExtra(BrowserActivity.ARG_NEWSID, newsInfoList.get(position).getNewsid());
 		 getActivity().startActivity(intent);
 	 }
 	public void setOnSearchItemClickListener(OnSearchListItemClick l){

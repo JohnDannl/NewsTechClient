@@ -4,6 +4,7 @@ import ustc.bitmap.imagecache.ImageCache;
 import ustc.bitmap.imagecache.ImageFetcher;
 import ustc.newstech.data.Constant;
 import ustc.newstech.discovery.DiscoveryFragment;
+import ustc.newstech.login.VolunteerFragment;
 import ustc.utils.AndroidDeviceId;
 import ustc.utils.Network;
 
@@ -16,7 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.widget.TextView;
 
 public class MainActivity extends BaseActivity {
 	private static final String TAG="XXXMainActivity";
@@ -106,6 +106,14 @@ public class MainActivity extends BaseActivity {
 	    			fragment.setArguments(args);    
 	    			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
 	    					DiscoveryFragment.TAG).commit();
+	    			break;
+	    		case 2:
+	    			fragment =new VolunteerFragment();
+	    			args =new Bundle();
+	    			args.putInt(VolunteerFragment.ARG_OBJECT, position);
+	    			fragment.setArguments(args);    
+	    			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
+	    					VolunteerFragment.TAG).commit();
 	    			break;
 	    		default:
 	    			fragment = new ObjectFragment();

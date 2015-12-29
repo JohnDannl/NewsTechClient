@@ -8,7 +8,7 @@
     <string-array name="menu_array">
         <item>首页</item>
         <item>发现</item>
-        <item>收藏</item>
+        <item>我的</item>
         <item>浏览记录</item>
         <item>关于我们</item>
     </string-array>
@@ -34,5 +34,44 @@
     <string name="search_title">搜索</string>
     <string name="search_hint">输入新闻标题、关键字</string>
     <string name="search_result"> 的搜索结果：</string>
-    
+    <!-- ################## LoginFragment ################# -->    
+    <string name="progress_login">正在登录&#8230;</string>
+    <string name="progress_register">正在注册&#8230;</string>
+    <string name="prompt_name">用户名</string>
+    <string name="prompt_email">邮箱</string>
+    <string name="prompt_newname">新用户名</string>
+    <string name="prompt_newemail">新邮箱</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_newpassword">新密码</string>
+    <string name="prompt_newpassword2">再次输入新密码</string>
+    <string name="action_login">登录</string>
+    <string name="action_login_color"><u><font color='red'>登录</font></u></string>
+    <string name="action_logout">退出登录</string>
+    <string name="action_register">注册</string>
+    <string name="action_register_color"><u><font color='blue'>注册</font></u></string>
+    <string name="action_login_register"><b>Login</b> or register</string>
+    <string name="action_login_short">Login</string>    
+    <string name="action_forgot_password">Recover lost password</string>
+    <string name="error_invalid_email">非法的邮件地址</string>
+    <string name="error_the_same_info">信息无改动</string>
+    <string name="error_invalid_password">密码不少于4个字符</string>
+    <string name="error_newpassword_not_match">两次输入不匹配</string>
+    <string name="error_incorrect_password">密码错误</string>
+    <string name="error_incorrect_name_password">用户名或密码错误</string>
+    <string name="error_name_long">不超过32个字符</string>
+    <string name="error_field_required">字段不能为空</string>
+    <string name="cancel_authorization">正在取消&#8230;</string>
+    <string name="failure_login">登录失败，请重试</string>
+    <string name="failure_register">注册失败，请重试</string>
+    <string name="failure_change">修改失败,请重试</string>
+    <string name="user_not_exists">用户不存在，请先注册</string>
+    <string name="success_register">注册成功</string>
+    <string name="success_login">登录成功</string>
+    <string name="success_change">修改成功</string>
+    <string name="user_name">用户：</string>
+    <string name="user_email">邮箱：</string>
+    <string name="action_changepassword">修改密码</string>
+    <string name="action_changeinfo">修改用户信息</string>
+    <string name="action_submit">确认提交</string>
+    <string name="progress_submit">正在提交&#8230;</string>
 </resources>

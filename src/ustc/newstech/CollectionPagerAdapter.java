@@ -31,7 +31,8 @@ public class CollectionPagerAdapter extends FragmentStatePagerAdapter {
         Fragment fragment = new NewsListFragment();
         Bundle args = new Bundle();
         // Our object is just an integer :-P
-        args.putString(HomePageFragment.ARG_HOME_PAGE, category_values[i]);        fragment.setArguments(args);
+        args.putString(NewsListFragment.ARG_TYPE, category_values[i]); 
+        fragment.setArguments(args);
         return fragment;
     }
 

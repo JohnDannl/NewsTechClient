@@ -1,6 +1,17 @@
 package ustc.newstech;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+
+import ustc.newstech.data.Constant;
+import ustc.newstech.data.parser.NewsInfo;
+import ustc.utils.AndroidDeviceId;
 import ustc.utils.Network;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,8 +31,10 @@ import android.widget.Toast;
 
 public class BrowserActivity extends Activity {
 	private static final String TAG="XXXBrowserActivity";
-	public static final String ARG_URL="ustc.newstech.arg_url";
+	public static final String ARG_URL="ustc.newstech.url";
+	public static final String ARG_NEWSID="ustc.newstech.newsid";
 	private ProgressBar progressBar;
+	private ClickRecordTask mTask=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,6 +70,8 @@ public class BrowserActivity extends Activity {
 		});
 		Intent intent = getIntent();
 		String url=intent.getStringExtra(ARG_URL);
+		String newsid=intent.getStringExtra(ARG_NEWSID);		
+		if(newsid!=null)clickRecord(newsid);
 		webView.loadUrl(url);
 		//Log.d(TAG,"onCreate()");
 	}
@@ -119,5 +134,44 @@ public class BrowserActivity extends Activity {
 		super.onDestroy();
 		//Log.d(TAG,"onDestroy()");
 	}
+	private void clickRecord(String newsid){
+		if(mTask!=null)return;
+		mTask=new ClickRecordTask();
+		String userid=AndroidDeviceId.getAndroidId(this);
+		String url=Constant.clickHost+Constant.pa_newsidEq+newsid
+				+Constant.pa_useridEq+userid;
+		//Log.d(TAG, url);
+		mTask.execute(url);
+	}
+	private class ClickRecordTask extends AsyncTask<String,Void,Void>{
 
+		@Override
+		protected Void doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			try{
+				URL url=new URL(params[0]); 
+	        	HttpURLConnection conn=(HttpURLConnection)url.openConnection();
+	        	conn.setConnectTimeout(8*1000);
+				conn.setDoInput(true);
+				conn.connect();
+				BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				char[] buf=new char[1024];
+				int len=br.read(buf);
+				StringBuilder sb=new StringBuilder();
+				while(len!=-1){
+					sb.append(buf,0,len);
+					len=br.read(buf);
+				}
+				//Log.d(TAG, sb.toString());
+				br.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+			return null;
+		}
+		@Override
+		protected void onPostExecute(Void result){
+			mTask=null;
+		}
+	}
 }

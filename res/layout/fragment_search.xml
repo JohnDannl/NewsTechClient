@@ -2,8 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    android:padding="6dip" >
+    android:background="@color/gray_light"
+    android:paddingLeft="1dip"
+    android:paddingRight="1dip">
     <!-- <LinearLayout
 	   android:id="@+id/search_list_progress"
 	   android:layout_width="wrap_content"
@@ -26,8 +27,8 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent"
 	   android:choiceMode="singleChoice"
-	   android:dividerHeight="6dip"
-	   android:divider="@color/transparent"
-	   android:background="@color/gray"/>
+	   android:dividerHeight="1dip"
+	   android:background="@color/gray_light"
+	   android:divider="@color/transparent"/>
     
 </FrameLayout>

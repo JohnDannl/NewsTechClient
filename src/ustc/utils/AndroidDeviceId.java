@@ -58,15 +58,11 @@ public class AndroidDeviceId {
 	    return tmSimSerial;
 	}
 	public static String getAndroidId(Context mContext){
-		final TelephonyManager teleManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-
 	    final String androidId;
-	    androidId = "" + android.provider.Settings.Secure.getString(mContext.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+	    androidId = android.provider.Settings.Secure.getString(mContext.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 	    return androidId;
 	}
 	public static String getHwSerial(Context mContext){
-		final TelephonyManager teleManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-
 	    final String buildSerial;
 	    buildSerial=""+android.os.Build.SERIAL;
 	    return buildSerial;

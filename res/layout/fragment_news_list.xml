@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="1dip"
+    android:paddingRight="1dip"
+    android:background="@color/gray_light"
     android:orientation="vertical" >
     <me.maxwin.view.XListView 
 	    android:id="@+id/c_listview"
 	    android:layout_height="match_parent"
         android:layout_width="match_parent"
-    	android:padding="5dip"    
     	android:choiceMode="singleChoice"
-        android:dividerHeight="6dip"
+        android:dividerHeight="1dip"
         android:divider="@color/transparent"
-    	android:background="@color/gray"/>
+    	android:background="@color/gray_light"/>
 
 </LinearLayout>
