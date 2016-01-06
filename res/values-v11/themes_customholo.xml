@@ -8,7 +8,8 @@
   <style name="_CustomHolo" parent="android:Theme.Holo.Light">
 
     <item name="android:editTextBackground">@drawable/customholo_edit_text_holo_light</item>
-
+	<item name="android:listChoiceIndicatorMultiple">@drawable/customholo_btn_check_holo_light</item>
+	
   </style>
 
 </resources>

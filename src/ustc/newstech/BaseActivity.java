@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,6 +29,7 @@ public class BaseActivity extends SlidingFragmentActivity {
     private Drawable[] mDrawerIcons=new Drawable[5];
 	protected ListFragment mFrag;
 	private TextView mTitle;
+	private Button btn_clear;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,16 +64,21 @@ public class BaseActivity extends SlidingFragmentActivity {
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		//getSupportActionBar().setCustomView(R.layout.actionbar_custom);
 		LinearLayout customActionBarView =(LinearLayout)LayoutInflater.from(this)
-				.inflate(R.layout.custom_actionbar, null);
+				.inflate(R.layout.custom_actionbar, null);		
 		getSupportActionBar().setCustomView(customActionBarView,new ActionBar.LayoutParams( 
 				ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
-		mTitle=(TextView)findViewById(R.id.actionbar_title);		
+		View customView=getSupportActionBar().getCustomView();
+		btn_clear=(Button)customView.findViewById(R.id.btn_menu_clear);
+		mTitle=(TextView)customView.findViewById(R.id.actionbar_title);		
 		setTitle(getResources().getString(R.string.app_name));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		//getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		//getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_drawer));
         //getActionBar().setHomeButtonEnabled(false);   
 		selectItem(0);
+	}
+	public void setOnBtnClearListener(OnClickListener listener){
+		btn_clear.setOnClickListener(listener);
 	}
 	private void initDrawerResource(){
 		mDrawerTitles = getResources().getStringArray(R.array.menu_array);
@@ -100,6 +108,8 @@ public class BaseActivity extends SlidingFragmentActivity {
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mDrawerTitles[position]);
+        if(position==1||position==3)btn_clear.setVisibility(View.VISIBLE);
+        else btn_clear.setVisibility(View.INVISIBLE);
         toggle();
     }
     public void drawer_btn_click(View view){

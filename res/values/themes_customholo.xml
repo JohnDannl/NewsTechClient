@@ -8,7 +8,8 @@
   <style name="_CustomHolo" parent="android:Theme.Holo.Light">
 
     <item name="android:editTextStyle">@style/EditTextCustomHolo</item>
-
+	<item name="android:checkboxStyle">@style/CheckBoxcustomholo</item>
+	
   </style>
 
 </resources>

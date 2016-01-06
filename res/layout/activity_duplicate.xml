@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="#ff222222"
+    android:padding="@dimen/padding_dimen"> 
+    
+   <ProgressBar
+       android:id="@+id/duplicate_submit_progress"
+       style="?android:attr/progressBarStyle"
+       android:layout_centerInParent="true"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:visibility="gone"
+       android:layout_marginBottom="8dp" />      
+    <ListView 
+       android:id="@+id/duplicate_news_list"
+       android:divider="@color/gray_dark"
+       android:dividerHeight="1dip"
+       android:padding="3dip"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"/>
+    <LinearLayout 
+        android:layout_marginTop="@dimen/padding_dimen"
+        android:layout_below="@id/duplicate_news_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button 
+            style="?android:attr/buttonBarButtonStyle"
+	        android:id="@+id/btn_duplicate_sumbit"
+	        android:text="@string/ok"
+	        android:layout_width="0dip"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"/>
+	    <Button 
+	        style="?android:attr/buttonBarButtonStyle"
+	        android:id="@+id/btn_duplicate_cancel"
+	        android:text="@string/cancel"
+	        android:layout_width="0dip"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+</RelativeLayout>

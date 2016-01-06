@@ -29,10 +29,10 @@ public class ObjectFragment extends Fragment  {
 	 }
 	
 	public void initPageContent(){
-    	imageS[0] = getResources().getDrawable(R.drawable.earth);
-    	imageS[1] = getResources().getDrawable(R.drawable.jupiter);
-    	imageS[2] = getResources().getDrawable(R.drawable.mars);
-    	imageS[3] = getResources().getDrawable(R.drawable.mercury);
-    	imageS[4] = getResources().getDrawable(R.drawable.neptune);
+    	imageS[0] = getResources().getDrawable(R.drawable.ic_menu_home);
+    	imageS[1] = getResources().getDrawable(R.drawable.ic_menu_search);
+    	imageS[2] = getResources().getDrawable(R.drawable.ic_menu_star);
+    	imageS[3] = getResources().getDrawable(R.drawable.ic_menu_recent_history);
+    	imageS[4] = getResources().getDrawable(R.drawable.ic_menu_info_details);
     }
 }

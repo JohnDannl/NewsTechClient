@@ -51,7 +51,6 @@
                 android:text="@string/action_register_color"/>
 			<EditText
                 android:id="@+id/name"
-                style="@style/EditTextCustomHolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_name"
@@ -59,7 +58,6 @@
                 android:singleLine="true" />
             <EditText
                 android:id="@+id/password"
-                style="@style/EditTextCustomHolo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"

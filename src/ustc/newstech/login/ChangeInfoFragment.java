@@ -6,6 +6,7 @@ import org.apache.http.client.ClientProtocolException;
 
 import ustc.newstech.R;
 import ustc.utils.AndroidDeviceId;
+import ustc.utils.Network;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -149,10 +150,14 @@ public class ChangeInfoFragment extends BaseFragment {
 					Toast.makeText(getActivity(), getResources().getString(R.string.success_change), Toast.LENGTH_SHORT).show();
 					storeUserInfo(getActivity());
 					listener.showLogout();
+				}else if(result.equals("User not exists")){
+					Toast.makeText(getActivity(), getResources().getString(R.string.user_not_exists), Toast.LENGTH_SHORT).show();
+					listener.showRegister();
 				}else{					
 					Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
 				}
 			}else{
+				if(Network.checkConnection(getActivity()))
 					Toast.makeText(getActivity(), getResources().getString(R.string.failure_change), Toast.LENGTH_SHORT).show();
 				}				
 			mAuthTask = null;

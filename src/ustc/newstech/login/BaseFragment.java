@@ -1,6 +1,8 @@
 package ustc.newstech.login;
 
+import ustc.newstech.MainActivity;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 
@@ -8,6 +10,10 @@ public class BaseFragment extends Fragment {
 	protected LoginHelper loginHelper=null;
 	protected String name,password,email,userid,cookie;
 	protected VolunteerListener listener;
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+	}
 	public void setVolunterListener(VolunteerListener l){
 		if(l!=null)listener=l;
 	}

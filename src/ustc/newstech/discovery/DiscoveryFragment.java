@@ -1,19 +1,28 @@
 package ustc.newstech.discovery;
 
+import ustc.newstech.MainActivity;
 import ustc.newstech.R;
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DiscoveryFragment extends Fragment{
 	public static final String ARG_DISCOVERY="ustc.arg.discovery";
@@ -24,6 +33,15 @@ public class DiscoveryFragment extends Fragment{
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		((MainActivity)getActivity()).setOnBtnClearListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				showClearDialog();
+			}
+			
+		});
 	}
 	@Override
 	 public View onCreateView(LayoutInflater inflater,
@@ -33,7 +51,7 @@ public class DiscoveryFragment extends Fragment{
 		searchFragmentContainer=(FrameLayout)rootView.findViewById(R.id.search_fragment_container);
 		setupSearchView(rootView);
 		return rootView;
-	}	
+	}			
 	private void setupSearchView(View rootView){
 		SearchManager searchManager =
 		           (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
@@ -104,4 +122,29 @@ public void clearSuggestionProvider(){
 		// Commit the transaction
 		transaction.commit();		
 	}
+ @Override
+ public void onResume() {
+    super.onResume();
+    //Log.d(TAG, "onResume DiscoveryFragment");	      
+ 	}
+ private void showClearDialog(){
+	 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), android.R.style.Theme_Dialog));
+	 builder.setTitle(R.string.clear_history_make_sure)
+	 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener(){
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			clearSuggestionProvider();
+			Toast.makeText(getActivity(), R.string.success_clear, Toast.LENGTH_SHORT).show();
+		}
+
+	 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+		
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+		}
+	}).create().show();		 		 
+ }	 
 }

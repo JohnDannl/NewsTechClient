@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class VolunteerFragment extends Fragment {
-	public static final String TAG="XXXLoginFragment";
+	public static final String TAG="XXXVolunteerFragment";
 	public static final String ARG_OBJECT = "object";	
 	
 	enum Volunteer {Login,Register,Logout,ChangePassword,ChangeInfo};
@@ -28,7 +28,7 @@ public class VolunteerFragment extends Fragment {
 	private boolean checkLogin(){
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		boolean isLogin=sharedPref.getString("cookie", null)!=null?true:false;
-		Log.d(TAG, String.valueOf(isLogin)+":"+sharedPref.getString("cookie", null));
+		//Log.d(TAG, String.valueOf(isLogin)+":"+sharedPref.getString("cookie", null));
 		return isLogin;
 	}
 	private void showView(Volunteer position){

@@ -5,17 +5,17 @@
     android:orientation="horizontal"
     android:background="@drawable/news_item_selector">
     <!-- The nested linearLayout is necessary for item resizing -->
-    <LinearLayout android:id="@+id/search_news_item"
+    <LinearLayout android:id="@+id/news_item"
         android:layout_width="match_parent"
         android:layout_height="200dip" 
-        android:padding="3dip"     
+        android:padding="@dimen/listview_item_padding"        
         android:orientation="horizontal">
         <RelativeLayout             
 		        android:layout_width="0dip"
 		        android:layout_weight="38"
 		        android:layout_height="match_parent">
             <ustc.bitmap.ui.RecyclingImageView 
-		        android:id="@+id/search_news_thumb"
+		        android:id="@+id/news_thumb"
 		        android:layout_width="match_parent"
 		        android:layout_height="match_parent"
 		        android:layout_margin="0dip"
@@ -27,19 +27,31 @@
             android:layout_height="match_parent"
             android:layout_weight="62"
             android:paddingLeft="6dip">
+            <CheckBox 
+                android:visibility="gone"
+                style="@style/CheckBoxcustomholo_light"
+                android:focusable="false"
+                android:checked="false"
+                android:textColor="@color/gray_light"                
+                android:id="@+id/dup_check"
+                android:text="@string/check_num"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <TextView 	                
-                android:id="@+id/search_news_title"
+                android:id="@+id/news_title"
                 android:layout_width="match_parent"
 	    		android:layout_height="wrap_content"
 				android:layout_alignParentTop="true"
                 android:textColor="#ffffff"
-                android:textSize="16sp"/>
+                android:textSize="16sp"/>            
            <RelativeLayout 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true">   
                 <TextView 	                    
-				    android:id="@+id/search_news_author"
+				    android:id="@+id/news_author"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_alignParentBottom="true"
@@ -47,15 +59,14 @@
 				    android:textColor="#ffffff"
 				    android:textSize="14sp"/>               
                 <TextView 	                    
-				    android:id="@+id/search_news_ldtime"
+				    android:id="@+id/news_ldtime"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_alignParentBottom="true"
 				    android:layout_alignParentRight="true"
 				    android:textColor="#ffffff"
 				    android:textSize="14sp"/>    				                     
-            </RelativeLayout>
-        </RelativeLayout> 
-	    
+            </RelativeLayout>            
+        </RelativeLayout> 	    
     </LinearLayout>    
 </LinearLayout>

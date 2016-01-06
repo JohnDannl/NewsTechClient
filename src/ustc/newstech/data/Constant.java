@@ -7,6 +7,7 @@ public class Constant {
 	public static final String newsHost=host+"/news/";
 	public static final String searchHost=host+"/search/a?";
 	public static final String clickHost=host+"/click/news?";
+	public static final String contactHost=host+"/contact/";
 	public static final String pa_newsidEq="&newsid=";
 	public static final String pa_useridEq="&userid=";
 	public static final String pa_numEq="&num=";

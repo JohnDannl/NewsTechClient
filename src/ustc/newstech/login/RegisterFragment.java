@@ -6,6 +6,7 @@ import org.apache.http.client.ClientProtocolException;
 
 import ustc.newstech.R;
 import ustc.utils.AndroidDeviceId;
+import ustc.utils.Network;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -179,7 +180,8 @@ public class RegisterFragment extends BaseFragment {
 				}else{					
 					Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
 				}
-			}else{				
+			}else{	
+				if(Network.checkConnection(getActivity()))
 					Toast.makeText(getActivity(), getResources().getString(R.string.failure_register), Toast.LENGTH_SHORT).show();			
 					}			
 			mAuthTask = null;

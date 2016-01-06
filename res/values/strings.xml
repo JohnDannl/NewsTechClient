@@ -34,7 +34,7 @@
     <string name="search_title">搜索</string>
     <string name="search_hint">输入新闻标题、关键字</string>
     <string name="search_result"> 的搜索结果：</string>
-    <!-- ################## LoginFragment ################# -->    
+    <!-- ################## LoginFragment ################# -->
     <string name="progress_login">正在登录&#8230;</string>
     <string name="progress_register">正在注册&#8230;</string>
     <string name="prompt_name">用户名</string>
@@ -45,12 +45,14 @@
     <string name="prompt_newpassword">新密码</string>
     <string name="prompt_newpassword2">再次输入新密码</string>
     <string name="action_login">登录</string>
-    <string name="action_login_color"><u><font color='red'>登录</font></u></string>
+    <string name="action_login_color"><u><font color="red">登录</font></u></string>
     <string name="action_logout">退出登录</string>
     <string name="action_register">注册</string>
-    <string name="action_register_color"><u><font color='blue'>注册</font></u></string>
+    <string name="action_register_color"><u><font color="blue">注册</font></u></string>
+    <string name="volunteer_color"><u><font color="blue">志愿者</font></u></string>
+    <string name="action_apply_volunteer_color"><font color="blue">是的，我要申请志愿者</font></string>
     <string name="action_login_register"><b>Login</b> or register</string>
-    <string name="action_login_short">Login</string>    
+    <string name="action_login_short">Login</string>
     <string name="action_forgot_password">Recover lost password</string>
     <string name="error_invalid_email">非法的邮件地址</string>
     <string name="error_the_same_info">信息无改动</string>
@@ -65,6 +67,7 @@
     <string name="failure_register">注册失败，请重试</string>
     <string name="failure_change">修改失败,请重试</string>
     <string name="user_not_exists">用户不存在，请先注册</string>
+    <string name="user_no_autorizaiton">账号已锁定，请联系客服解锁</string>
     <string name="success_register">注册成功</string>
     <string name="success_login">登录成功</string>
     <string name="success_change">修改成功</string>
@@ -74,4 +77,49 @@
     <string name="action_changeinfo">修改用户信息</string>
     <string name="action_submit">确认提交</string>
     <string name="progress_submit">正在提交&#8230;</string>
+    <string name="title_activity_volunteer_apply">VolunteerApplyActivity</string>
+    <string name="you_can_help">您能帮助改善我们的新闻去重算法！</string>
+    <string name="operation_instruction">0、勾选了上述志愿者申请，界面将会发生细微变化，然后您可按照以下说明进行操作：</string>
+    <string name="first_step">1、选择您认为重复的两条新闻</string>
+    <string name="second_step">2、确认提交</string>
+    <string name="third_step">3、提交后对应新闻的标志数+1</string>
+    <string name="fourth_step">4、点击以下按钮可以清除本地反馈记录同时所有标志数清零</string>
+    <string name="expect_your_apply">期待您的热忱参与！</string>
+    <!-- ################## NewsListFragment duplication submit ################# -->
+    <string name="check_num">0</string>
+    <string name="title_duplication_dialog">确认提交消重反馈？</string>
+    <string name="ok">确认</string>
+    <string name="cancel">取消</string>
+    <string name="dup_submit_cancel">提交已取消，请重新选取</string>
+    <string name="failure_retry">失败，请重试</string>
+    <string name="must_select_two_items">必须选择两项</string>
+    <string name="submit_success">提交成功</string>
+    <string name="user_not_login">登录已过期，请先登录</string>
+    <string name="action_clearduplicate">清除消重反馈记录</string>
+    <string name="success_clear">清除成功</string>
+    <!-- ################## HistoryFragment duplication submit ################# -->
+    <string name="action_clear_history">清除痕迹</string>
+    <string name="clear_history_make_sure">确定清除历史记录？</string>
+    <!-- ################## About us ################# -->
+    <string name="chk_update">检测更新</string>
+    <string name="contact_us">联系我们</string>
+    <string name="author">作者：新媒体实验室</string>
+    <!-- ################## Update ################# -->
+    <string name="update_new_version_find">发现新版本：\n</string>
+    <string name="update_download">下载升级</string>
+    <string name="update_nexttime">以后再说</string>
+    <string name="update_ok">确定</string>
+    <string name="update_cancel">取消</string>
+    <string name="update_error_title">更新取消</string>
+    <string name="update_stop_message">下载被终止</string>
+    <string name="pref_about_long">应用名称：<b>%1$s</b>\n
+        					版本号：<b>V%2$s</b></string>
+    <string name="update_already_newews">已是最新版本</string>
+    <string name="title_activity_contact">ContactActivity</string>
+	<!-- ################## Contact ################# -->
+	<string name="prompt_contact_email">您的联系邮箱</string>
+	<string name="prompt_contact_feedback">您的意见或建议</string>
+	<string name="submit">提交</string>
+	<string name="failure_submit">提交失败，请重试</string>
+	<string name="success_submit">反馈成功</string>
 </resources>

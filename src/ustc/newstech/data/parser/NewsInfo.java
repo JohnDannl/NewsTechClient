@@ -25,7 +25,7 @@ public class NewsInfo{
 	public String getBrief(){return this.brief;}
 	public String getSource(){return this.source;}
 	public String getAuthor(){return this.author;}
-	public long getcTime(){return this.ctime;}
+	public long getCTime(){return this.ctime;}
 	public String getmType(){return this.mtype;}
 	public String getDesc(){return this.description;}
 	public int getClick(){return this.click;}
@@ -37,7 +37,7 @@ public class NewsInfo{
 	public void setThumb(String thumb){this.thumb=thumb;}
 	public void setBrief(String brief){this.brief=brief;}
 	public void setSource(String source){this.source=source;}
-	public void setcTime(long ctime){this.ctime=ctime;}
+	public void setCTime(long ctime){this.ctime=ctime;}
 	public void setmType(String mtype){this.mtype=mtype;}
 	public void setDesc(String description){this.description=description;}
 	public void setAuthor(String author){this.author=author;}

@@ -1,18 +1,32 @@
 package ustc.newstech;
 
-import ustc.bitmap.imagecache.ImageCache;
-import ustc.bitmap.imagecache.ImageFetcher;
-import ustc.newstech.data.Constant;
-import ustc.newstech.discovery.DiscoveryFragment;
-import ustc.newstech.login.VolunteerFragment;
-import ustc.utils.AndroidDeviceId;
-import ustc.utils.Network;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.actionbarsherlock.view.Menu;
 
+import ustc.bitmap.imagecache.ImageCache;
+import ustc.bitmap.imagecache.ImageFetcher;
+import ustc.newstech.about.AboutFragment;
+import ustc.newstech.data.Constant;
+import ustc.newstech.database.NewsTechDBHelper;
+import ustc.newstech.discovery.DiscoveryFragment;
+import ustc.newstech.history.HistoryFragment;
+import ustc.newstech.login.LoginHelper;
+import ustc.newstech.login.VolunteerFragment;
+import ustc.utils.AndroidDeviceId;
+import ustc.utils.Network;
+import ustc.utils.update.UpdateManager;
+
+
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
@@ -22,7 +36,8 @@ public class MainActivity extends BaseActivity {
 	private static final String TAG="XXXMainActivity";
 	private ImageFetcher mImageFetcher;
 	private static final String IMAGE_CACHE_DIR = "thumbs";
-    
+	private UpdateManager mUpdateManager;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,14 +57,19 @@ public class MainActivity extends BaseActivity {
         mImageFetcher.addImageCache(getSupportFragmentManager(), cacheParams);
         mImageFetcher.setImageFadeIn(true);//will revoke the background empty image
         mImageFetcher.setLoadingImage(R.drawable.empty_photo);
-        handleIntent(getIntent());
+        handleIntent(getIntent());        
         //Log.d(TAG,"onCreate()");
-	}
+        if(MyApplication.start_launch){
+			MyApplication.start_launch=false; //To ensure just to execute when app launches
+			mUpdateManager = new UpdateManager(this);	        
+	        mUpdateManager.checkUpdateInfo();
+		}
+	}	
 	@Override
     protected void onNewIntent(Intent intent) {
 		setIntent(intent);
         handleIntent(intent);
-        Log.d(TAG,"onNewIntent()");
+        //Log.d(TAG,"onNewIntent()");
     }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,7 +79,7 @@ public class MainActivity extends BaseActivity {
 	}   
 	 @Override
 	    public void onResume() {			
-	        super.onResume();        
+	        super.onResume();  
 	        if(mImageFetcher!=null)mImageFetcher.setExitTasksEarly(false);
 	        //Log.d(TAG, "onResume()");
 	    }
@@ -115,6 +135,22 @@ public class MainActivity extends BaseActivity {
 	    			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
 	    					VolunteerFragment.TAG).commit();
 	    			break;
+	    		case 3:
+	    			fragment =new HistoryFragment();
+	    			args =new Bundle();
+	    			args.putInt(HistoryFragment.ARG_OBJECT, position);
+	    			fragment.setArguments(args);    
+	    			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
+	    					HistoryFragment.TAG).commit();
+	    			break;
+	    		case 4:
+	    			fragment =new AboutFragment();
+	    			args =new Bundle();
+	    			args.putInt(AboutFragment.ARG_OBJECT, position);
+	    			fragment.setArguments(args);    
+	    			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
+	    					AboutFragment.TAG).commit();
+	    			break;
 	    		default:
 	    			fragment = new ObjectFragment();
 	    	        args = new Bundle();
@@ -145,5 +181,5 @@ public class MainActivity extends BaseActivity {
 			 if(userId==null)userId= AndroidDeviceId.getUUId(this);
 			 if(userId==null)userId=Constant.pa_anonymous;
 			 return userId;
-		 }	
+		 }		    
 }

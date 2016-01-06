@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import me.maxwin.view.XListView;
 import me.maxwin.view.XListView.IXListViewListener;
@@ -78,18 +79,12 @@ public class SearchFragment extends Fragment {
 		final DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         final int height = displayMetrics.heightPixels;
- 		itemHeight=height*1/6;
+ 		itemHeight=height*1/6; 		
+ 		if (MainActivity.class.isInstance(getActivity())) {
+	      mImageFetcher = ((MainActivity) getActivity()).getImageFetcher();
+	    }
 	}
-	 @Override
-	   public void onActivityCreated(Bundle savedInstanceState) {
-	       super.onActivityCreated(savedInstanceState);
-	       // Execute after onCreateView()
-	       // Use the parent activity to load the image asynchronously into the ImageView (so a single
-	       // cache can be used over all pages in the ViewPager
-	       if (MainActivity.class.isInstance(getActivity())) {
-	           mImageFetcher = ((MainActivity) getActivity()).getImageFetcher();
-	       }
-		 }
+	 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 	         ViewGroup container, Bundle savedInstanceState) {
@@ -235,20 +230,20 @@ public class SearchFragment extends Fragment {
 			// TODO Auto-generated method stub
 			if(convertView==null){
 				convertView = LayoutInflater.from(getActivity())  
-	                    .inflate(R.layout.search_list_item, null); 
+	                    .inflate(R.layout.news_list_item_dup, null); 
 			}
 			ViewHolder holder=ViewHolder.get(convertView);
-			LinearLayout newsItem=(LinearLayout)holder.getView(R.id.search_news_item);
+			LinearLayout newsItem=(LinearLayout)holder.getView(R.id.news_item);
 		    newsItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,itemHeight));
 //			    Log.d("XXXXXXXXXXXXX", String.format("h:%d,w:%d", newsItem.getLayoutParams().height,newsItem.getLayoutParams().width));
-			ImageView thumb=(ImageView)holder.getView(R.id.search_news_thumb);
+			ImageView thumb=(ImageView)holder.getView(R.id.news_thumb);
 			mImageFetcher.loadImage(newsArray.get(position).getThumb(), thumb);			
-			TextView title=(TextView)holder.getView(R.id.search_news_title);
+			TextView title=(TextView)holder.getView(R.id.news_title);
 			title.setText(newsArray.get(position).getTitle());
-			TextView author=(TextView)holder.getView(R.id.search_news_author);
+			TextView author=(TextView)holder.getView(R.id.news_author);
 			author.setText(newsArray.get(position).getAuthor());
-			TextView loadtime=(TextView)holder.getView(R.id.search_news_ldtime);
-			loadtime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(newsArray.get(position).getcTime()*1000)));
+			TextView loadtime=(TextView)holder.getView(R.id.news_ldtime);
+			loadtime.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.CHINA).format(new Date(newsArray.get(position).getCTime()*1000)));
 
 			if(selectedIndex!= -1 && position == selectedIndex){
 				title.setTextColor(getResources().getColor(R.color.dark_tangerine));
@@ -264,6 +259,8 @@ public class SearchFragment extends Fragment {
 		 Intent intent=new Intent(getActivity(),BrowserActivity.class);
 		 intent.putExtra(BrowserActivity.ARG_URL,newsInfoList.get(position).getUrl());
 		 intent.putExtra(BrowserActivity.ARG_NEWSID, newsInfoList.get(position).getNewsid());
+		 intent.putExtra(BrowserActivity.ARG_TITLE,newsInfoList.get(position).getTitle());
+		 intent.putExtra(BrowserActivity.ARG_CTIME,newsInfoList.get(position).getCTime());
 		 getActivity().startActivity(intent);
 	 }
 	public void setOnSearchItemClickListener(OnSearchListItemClick l){

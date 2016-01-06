@@ -1,21 +1,19 @@
 package ustc.newstech;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-
+import java.util.Calendar;
 import ustc.newstech.data.Constant;
-import ustc.newstech.data.parser.NewsInfo;
+import ustc.newstech.database.NewsTechDBHelper;
+import ustc.newstech.database.TableHistory;
 import ustc.utils.AndroidDeviceId;
 import ustc.utils.Network;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,14 +25,19 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 public class BrowserActivity extends Activity {
 	private static final String TAG="XXXBrowserActivity";
 	public static final String ARG_URL="ustc.newstech.url";
 	public static final String ARG_NEWSID="ustc.newstech.newsid";
+	public static final String ARG_CTIME="ustc.newstech.ctime";
+	public static final String ARG_TITLE="ustc.newstech.title";
 	private ProgressBar progressBar;
-	private ClickRecordTask mTask=null;
+	private ClickSubmitTask sumitTask=null;
+	private NewsTechDBHelper dbHelper;
+	private DBTask dbTask=null;
+	private String newsid,title,url;
+	private long ctime,rtime;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,9 +72,14 @@ public class BrowserActivity extends Activity {
 			}
 		});
 		Intent intent = getIntent();
-		String url=intent.getStringExtra(ARG_URL);
-		String newsid=intent.getStringExtra(ARG_NEWSID);		
-		if(newsid!=null)clickRecord(newsid);
+		url=intent.getStringExtra(ARG_URL);
+		newsid=intent.getStringExtra(ARG_NEWSID);
+		title=intent.getStringExtra(ARG_TITLE);
+		ctime=intent.getLongExtra(ARG_CTIME, 0);
+		rtime=Calendar.getInstance().getTimeInMillis();
+		if(newsid!=null)clickSubmit(newsid);
+		dbHelper=new NewsTechDBHelper(this);
+		if(newsid!=null&&title!=null)clickRecord();
 		webView.loadUrl(url);
 		//Log.d(TAG,"onCreate()");
 	}
@@ -134,16 +142,22 @@ public class BrowserActivity extends Activity {
 		super.onDestroy();
 		//Log.d(TAG,"onDestroy()");
 	}
-	private void clickRecord(String newsid){
-		if(mTask!=null)return;
-		mTask=new ClickRecordTask();
+	private void clickSubmit(String newsid){
+		if(sumitTask!=null)return;
+		sumitTask=new ClickSubmitTask();
 		String userid=AndroidDeviceId.getAndroidId(this);
 		String url=Constant.clickHost+Constant.pa_newsidEq+newsid
 				+Constant.pa_useridEq+userid;
 		//Log.d(TAG, url);
-		mTask.execute(url);
+		sumitTask.execute(url);
 	}
-	private class ClickRecordTask extends AsyncTask<String,Void,Void>{
+	private void clickRecord(){
+		if(dbTask==null){
+			dbTask=new DBTask();
+			dbTask.execute();
+		}
+	}
+	private class ClickSubmitTask extends AsyncTask<String,Void,Void>{
 
 		@Override
 		protected Void doInBackground(String... params) {
@@ -171,7 +185,20 @@ public class BrowserActivity extends Activity {
 		}
 		@Override
 		protected void onPostExecute(Void result){
-			mTask=null;
+			sumitTask=null;
 		}
 	}
+	private class DBTask extends AsyncTask<Void,Void,Void>{
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			TableHistory.insertItem(dbHelper,newsid, title, url, ctime, rtime);			
+			return null;
+		}
+		@Override
+		protected void onPostExecute(Void result){					
+			dbTask=null;
+		}
+	 }
 }

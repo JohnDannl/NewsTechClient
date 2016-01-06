@@ -49,7 +49,7 @@ public class NewsInfoParser {
                     vod.setSource(parser.getText()==null?"":parser.getText());
                 }else if(parser.getName().equals("ctime")){
                 	eventType = parser.next();  
-                    vod.setcTime(Long.parseLong(parser.getText()==null?"0":parser.getText()));
+                    vod.setCTime(Long.parseLong(parser.getText()==null?"0":parser.getText()));
                 } else if (parser.getName().equals("author")) {  
                     eventType = parser.next();  
                     vod.setAuthor(parser.getText()==null?"":parser.getText());  
@@ -109,7 +109,7 @@ public class NewsInfoParser {
                     vod.setSource(parser.getText()==null?"":parser.getText());
                 }else if(parser.getName().equals("rctime")){
                 	eventType = parser.next();  
-                    vod.setcTime(Long.parseLong(parser.getText()==null?"0":parser.getText()));
+                    vod.setCTime(Long.parseLong(parser.getText()==null?"0":parser.getText()));
                 } else if (parser.getName().equals("rauthor")) {  
                     eventType = parser.next();  
                     vod.setAuthor(parser.getText()==null?"":parser.getText());  

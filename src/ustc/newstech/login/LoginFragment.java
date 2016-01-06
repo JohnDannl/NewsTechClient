@@ -2,9 +2,13 @@ package ustc.newstech.login;
 
 import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
+import org.xmlpull.v1.XmlPullParserException;
 
 import ustc.newstech.R;
+import ustc.newstech.data.parser.UserInfo;
+import ustc.newstech.data.parser.UserInfoParser;
 import ustc.utils.AndroidDeviceId;
+import ustc.utils.Network;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -84,10 +88,10 @@ public class LoginFragment extends BaseFragment{
 	}
 	private boolean checkLogin(Context context){
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-		Log.d(TAG, sharedPref.getString("name", null)+":"
+		/*Log.d(TAG, sharedPref.getString("name", null)+":"
 				+sharedPref.getString("password", null)+":"
 				+sharedPref.getString("userid", null)+":"
-				+sharedPref.getString("cookie", null));
+				+sharedPref.getString("cookie", null));*/
 		if(sharedPref.getString("name", null)!=null
 				&&sharedPref.getString("password", null)!=null
 				&&sharedPref.getString("userid", null)!=null
@@ -101,6 +105,7 @@ public class LoginFragment extends BaseFragment{
 		editor.putString("name", name);
 		editor.putString("userid",userid);
 		editor.putString("password", password);
+		editor.putString("email", email);
 		editor.commit();
 	}
 	private void putCookie(Context context,String cookie){
@@ -158,16 +163,29 @@ public class LoginFragment extends BaseFragment{
 		@Override
 		protected String doInBackground(Void... params) {
 			// TODO Auto-generated method stub
+			String result=null;
 			try {
-				return loginHelper.login();
+				result=loginHelper.login();
+				if(result.contains("Welcome")){
+					UserInfo user=UserInfoParser.parse(result);
+					userid=user.getUserId();
+					name=user.getName();
+					email=user.getEmail();
+					storeUserInfo(getActivity());
+					result="Login successfully";
+				}
+				
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (XmlPullParserException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			return null;
+			return result;
 		}
 		@Override
 		protected void onPostExecute(String result){	
@@ -180,10 +198,13 @@ public class LoginFragment extends BaseFragment{
 				}else if(result.equals("User not exists")){
 					Toast.makeText(getActivity(), getResources().getString(R.string.user_not_exists), Toast.LENGTH_SHORT).show();
 					listener.showRegister();
+				}else if(result.equals("No authorization")){
+					Toast.makeText(getActivity(), getResources().getString(R.string.user_no_autorizaiton), Toast.LENGTH_SHORT).show();
 				}else{					
 					Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
 				}
 			}else{
+				if(Network.checkConnection(getActivity()))
 					Toast.makeText(getActivity(), getResources().getString(R.string.failure_login), Toast.LENGTH_SHORT).show();
 				}				
 			mAuthTask = null;

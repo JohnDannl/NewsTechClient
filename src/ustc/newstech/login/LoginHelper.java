@@ -3,6 +3,7 @@ package ustc.newstech.login;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +31,10 @@ public class LoginHelper {
 	public static final String TAG="XXXLoginHelper";
 	public static final String hostName="http://222.195.78.181:8897"; //222.195.78.181
 	public static final String loginHost=hostName+"/login";
-	public static final String dupHost="222.195.78.181:8897/duplicate";
+	public static final String dupHost=hostName+"/duplicate";
 	public static final String signinHost=hostName+"/signin";
 	private static final String[] loginAction={"/login","/changeinfo","/changepassword"};
-	private static final String code_welcome="Hello,",
+	private static final String code_welcome="Welcome",
 								code_submit="Submit duplication successfully",
 								code_changepassword="Change password successfully",
 								code_changeinfo="Change info successfully",
@@ -74,32 +75,34 @@ public class LoginHelper {
 	 * 
 	 * @param newsid1
 	 * @param newsid2
-	 * @return if(helper.submitDuplicate("123","456").contains("/login/login"))
-	 * 			or "Submit duplication successfully"
+	 * @return "user not logins" or "Submit duplication successfully"
 	 * @throws ParseException 
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 */
 	public String submitDuplicate(String newsid1,String newsid2) throws ParseException, IOException, URISyntaxException{
-		URI uri = new URI(new Uri.Builder()
-				.scheme("http")
-				.authority(dupHost)
-				.appendPath("/news")
-				.appendQueryParameter("newsid1", newsid1)
-				.appendQueryParameter("newsid2", newsid2)
-				.build().toString());
-		HttpGet httpGet = new HttpGet(uri);
+		String url=dupHost+"/news?newsid1="+URLEncoder.encode(newsid1, "utf-8")+
+				"&newsid2="+URLEncoder.encode(newsid2, "utf-8");
+		HttpGet httpGet = new HttpGet(url);
 		httpGet.addHeader("Cookie", cookie_para);
-		HttpResponse response = httpClient.execute(httpGet);		
+		HttpResponse response = httpClient.execute(httpGet);	
+		int httpcode=response.getStatusLine().getStatusCode();	    
+	    if(httpcode==302){
+	    	Header location=response.getFirstHeader("Location");
+	    	String redirection=null;
+	    	if(location!=null&&!TextUtils.isEmpty(location.getValue())){
+	    		redirection=location.getValue();
+	    		if(redirection!=null&&redirection.equals("/login/login"))return "User not logins";
+	    	}		    	
+	    }
 	    HttpEntity entity = response.getEntity();
-	    return EntityUtils.toString(entity);
-		
+	    return EntityUtils.toString(entity);		
 	}
 	/**
 	 * 
-	 * @return "Login successfully" or "User authorization failure" or 
-	 * "User not exists" or "Login failure"
+	 * @return user info or "User authorization failure" or <br>
+	 * "User not exists" or "No authorization" or "Login failure"
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
@@ -129,9 +132,8 @@ public class LoginHelper {
 	    		HttpGet httpGet = new HttpGet(redirection);
 	    		httpGet.addHeader("Cookie", cookie_para);
 	    		HttpResponse response2 = httpClient.execute(httpGet);
-	    		if(response2.getStatusLine().getStatusCode()==200
-	    				&&EntityUtils.toString(response2.getEntity()).equals(code_welcome+userid))
-	    			return "Login successfully";
+	    		if(response2.getStatusLine().getStatusCode()==200)
+	    			return EntityUtils.toString(response2.getEntity(),"utf-8");
 	    	}		    	
 	    }else if(httpcode==200)
 	    	return EntityUtils.toString(response.getEntity());
@@ -178,7 +180,8 @@ public class LoginHelper {
 	/**
 	 * 
 	 * @param newPassword
-	 * @return "User authorization failure" or "Change password successfully"
+	 * @return "User authorization failure" or "Change password successfully" or<br>
+	 * "User not exists"
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
@@ -191,14 +194,33 @@ public class LoginHelper {
 		nvps.add(new BasicNameValuePair("newpassword",newPassword));
 		httpPost.setEntity(new UrlEncodedFormEntity(nvps));
 		HttpResponse response = httpClient.execute(httpPost);		
+		HttpResponse response2=null;
+	    int httpcode=response.getStatusLine().getStatusCode();
+	    String redir_loc=null;
+	    if(httpcode==302){//redirect to /welcome url
+	    	for(Header header:response.getAllHeaders()){
+		    	if(header.getName().equals("Location")){
+		    		redir_loc= header.getValue();
+		    		redir_loc=hostName+redir_loc;
+		    	}    	
+		    }
+	    	if(redir_loc!=null){	
+	    		HttpGet httpGet = new HttpGet(redir_loc);
+	    		response2 = httpClient.execute(httpGet);
+	    		if(response2.getStatusLine().getStatusCode()==200
+	    				&&EntityUtils.toString(response2.getEntity()).contains("/signin"))
+	    			return "User not exists";
+	    	}
+	    }	
 		String result=EntityUtils.toString(response.getEntity());
-		return result;
+		return result;	
 	}
 	/**
 	 * 
 	 * @param newName
 	 * @param newEmail
-	 * @return "Change info successfully" or "User authorization failure"
+	 * @return "Change info successfully" or "User authorization failure" or<br>
+	 * "User not exists
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
@@ -211,10 +233,27 @@ public class LoginHelper {
 		nvps.add(new BasicNameValuePair("newname",newName));
 		nvps.add(new BasicNameValuePair("newemail",newEmail));
 		httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-		HttpResponse response = httpClient.execute(httpPost);		
+		HttpResponse response = httpClient.execute(httpPost);	
+		HttpResponse response2=null;
+	    int httpcode=response.getStatusLine().getStatusCode();
+	    String redir_loc=null;
+	    if(httpcode==302){//redirect to /welcome url
+	    	for(Header header:response.getAllHeaders()){
+		    	if(header.getName().equals("Location")){
+		    		redir_loc= header.getValue();
+		    		redir_loc=hostName+redir_loc;
+		    	}    	
+		    }
+	    	if(redir_loc!=null){	
+	    		HttpGet httpGet = new HttpGet(redir_loc);
+	    		response2 = httpClient.execute(httpGet);
+	    		if(response2.getStatusLine().getStatusCode()==200
+	    				&&EntityUtils.toString(response2.getEntity()).contains("/signin"))
+	    			return "User not exists";
+	    	}
+	    }	
 		String result=EntityUtils.toString(response.getEntity());
-		return result;
-		
+		return result;		
 	}
 	/*public static void main(String[] args) throws ClientProtocolException, IOException, URISyntaxException{
 		LoginHelper helper=new LoginHelper("dannl","12345","004");

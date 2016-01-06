@@ -2,6 +2,7 @@ package ustc.newstech.login;
 
 import ustc.newstech.R;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -30,6 +31,17 @@ public class LogoutFragment extends BaseFragment{
 	     // properly.	
 		 initializeLoginInfo();
 	     final View rootView = inflater.inflate(R.layout.fragment_logout, container, false);
+	     TextView volunteer_link=(TextView)rootView.findViewById(R.id.volunteer_link);
+	     volunteer_link.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(getActivity(),VolunteerApplyActivity.class);
+				getActivity().startActivity(intent);
+			}
+	    	 
+	     });
 	     TextView nameView=(TextView)rootView.findViewById(R.id.user_name);
 	     nameView.setText(name);
 	     TextView emailView=(TextView)rootView.findViewById(R.id.user_email);
