@@ -74,7 +74,7 @@ public class ContactActivity extends Activity {
 	 * @throws IOException
 	 */
 	private String submitFeedback() throws ClientProtocolException, IOException{
-		HttpPost httpPost = new HttpPost(Constant.contactHost);	
+		HttpPost httpPost = new HttpPost(Constant.suggestHost);	
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		List <NameValuePair> nvps = new ArrayList <NameValuePair>();	
 		nvps.add(new BasicNameValuePair("userid", userid));
