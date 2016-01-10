@@ -26,6 +26,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -103,7 +104,6 @@ public class UpdateManager {
 	        conn.setConnectTimeout(5000); 
 			is = conn.getInputStream();
 			serverInfo = VersionParser.parse(is);
-			//Log.d(TAG, serverInfo.toString());
 			if(mDetector.getVersionCode()<serverInfo.getVersionCode())result="true";
 			else result="false";
 		} catch (IOException e) {
@@ -119,9 +119,10 @@ public class UpdateManager {
 		if(isNetworkConnected(mContext)){
 			new Thread(){
 				public void run()
-				{	if(hasUpdatedVersion()==null){
+				{	String hasUpdate=hasUpdatedVersion();
+					if(hasUpdate==null){
 						mHandler.sendEmptyMessage(SERVER_FAILURE);
-					}else if(hasUpdatedVersion().equals("true")){
+					}else if(hasUpdate.equals("true")){
 						mHandler.sendEmptyMessage(HAS_UPDATE);
 					}else{
 						mHandler.sendEmptyMessage(NO_UPDATE);
@@ -150,7 +151,8 @@ public class UpdateManager {
     	}
 	
 	private void showNoticeDialog(){
-		AlertDialog.Builder builder = new Builder(mContext);
+		//AlertDialog.Builder builder = new Builder(mContext);
+		AlertDialog.Builder builder = new Builder(new ContextThemeWrapper(mContext, android.R.style.Theme_Dialog));
 		builder.setTitle(mContext.getResources().getString(R.string.update_new_version_find)
 				+serverInfo.getVersionName());
 //		builder.setMessage(updateMsg);
@@ -173,8 +175,10 @@ public class UpdateManager {
 		noticeDialog.show();
 	}
 	
-	private void showDownloadDialog(){		
-		progressDialog = new ProgressDialog(mContext);  
+	private void showDownloadDialog(){	
+		//progressDialog = new ProgressDialog(mContext);
+		// using specific theme
+		progressDialog = new ProgressDialog(new ContextThemeWrapper(mContext, android.R.style.Theme_Dialog));  
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL); 
 		progressDialog.setIndeterminate(false); 
 		progressDialog.setCancelable(true);
@@ -195,7 +199,8 @@ public class UpdateManager {
 		downloadApk();
 	}
 	private void showStopDialog(){
-		AlertDialog.Builder builder = new Builder(mContext);
+		//AlertDialog.Builder builder = new Builder(mContext);
+		AlertDialog.Builder builder = new Builder(new ContextThemeWrapper(mContext, android.R.style.Theme_Dialog));
 		builder.setTitle(R.string.update_error_title);
 //		builder.setMessage(updateMsg);
 		builder.setMessage(R.string.update_stop_message);

@@ -85,6 +85,7 @@
     <string name="third_step">3、提交后对应新闻的标志数+1</string>
     <string name="fourth_step">4、点击以下按钮可以清除本地反馈记录同时所有标志数清零</string>
     <string name="expect_your_apply">期待您的热忱参与！</string>
+    <string name="clear_submit_make_sure">确定清除反馈记录？</string>
     <!-- ################## NewsListFragment duplication submit ################# -->
     <string name="check_num">0</string>
     <string name="title_duplication_dialog">确认提交消重反馈？</string>
@@ -103,7 +104,7 @@
     <!-- ################## About us ################# -->
     <string name="chk_update">检测更新</string>
     <string name="contact_us">联系我们</string>
-    <string name="author">作者：新媒体实验室</string>
+    <string name="author">作者：合肥海晨网络科技有限公司</string>
     <!-- ################## Update ################# -->
     <string name="update_new_version_find">发现新版本：\n</string>
     <string name="update_download">下载升级</string>

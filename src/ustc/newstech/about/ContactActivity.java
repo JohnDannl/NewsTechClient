@@ -13,6 +13,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import ustc.newstech.R;
@@ -74,14 +78,19 @@ public class ContactActivity extends Activity {
 	 * @throws IOException
 	 */
 	private String submitFeedback() throws ClientProtocolException, IOException{
-		HttpPost httpPost = new HttpPost(Constant.suggestHost);	
-		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpParams params = new BasicHttpParams();
+		params.setParameter("charset", HTTP.UTF_8);
+        HttpConnectionParams.setConnectionTimeout(params, 8 * 1000);
+        HttpConnectionParams.setSoTimeout(params, 8 * 1000);		
+		DefaultHttpClient httpClient = new DefaultHttpClient(params);
+		HttpPost httpPost = new HttpPost(Constant.suggestHost);			
 		List <NameValuePair> nvps = new ArrayList <NameValuePair>();	
 		nvps.add(new BasicNameValuePair("userid", userid));
 		nvps.add(new BasicNameValuePair("email", email));
 		nvps.add(new BasicNameValuePair("suggestion",suggestion));
-		Log.d(TAG,userid+email+suggestion);
-		httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		Log.d(TAG,userid+":"+email+":"+suggestion);
+		httpPost.addHeader("charset", HTTP.UTF_8);  
+		httpPost.setEntity(new UrlEncodedFormEntity(nvps,HTTP.UTF_8));
 		HttpResponse response = httpClient.execute(httpPost);		
 	    int httpcode=response.getStatusLine().getStatusCode();
 	    return EntityUtils.toString(response.getEntity());	

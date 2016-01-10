@@ -12,8 +12,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,10 +61,7 @@ public class VolunteerApplyActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(dbTask==null){
-					dbTask=new DBTask();
-					dbTask.execute();
-				}
+				showClearDialog();
 			}
 			
 		});
@@ -85,6 +85,28 @@ public class VolunteerApplyActivity extends Activity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	private void showClearDialog(){
+		 AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Dialog));
+		 builder.setTitle(R.string.clear_submit_make_sure)
+		 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				if(dbTask==null){
+					dbTask=new DBTask();
+					dbTask.execute();
+				}
+			}
+
+		 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+			}
+		}).create().show();		 		 
+	 }	 
 	private class DBTask extends AsyncTask<Void,Void,Void>{
 
 		@Override

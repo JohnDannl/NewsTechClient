@@ -20,6 +20,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
@@ -42,12 +46,17 @@ public class LoginHelper {
 								code_login_failure="User authorization failure";
 	
 	public String cookie_para,name,email,password,userid;
-	private DefaultHttpClient httpClient = new DefaultHttpClient();
+	private DefaultHttpClient httpClient=null;
 	
 	public LoginHelper(String name,String password,String userid){
 		this.name=name;
 		this.password=password;
 		this.userid=userid;
+		HttpParams params = new BasicHttpParams();
+		params.setParameter("charset", HTTP.UTF_8);
+        HttpConnectionParams.setConnectionTimeout(params, 8 * 1000);
+        HttpConnectionParams.setSoTimeout(params, 8 * 1000);	
+        httpClient=new DefaultHttpClient(params);
 		httpClient.setRedirectHandler(new RedirectHandler(){
 
 			@Override
@@ -112,7 +121,8 @@ public class LoginHelper {
 		nvps.add(new BasicNameValuePair("userid", userid));
 		nvps.add(new BasicNameValuePair("name", name));
 		nvps.add(new BasicNameValuePair("password",password));
-		httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		httpPost.addHeader("charset", HTTP.UTF_8);  
+		httpPost.setEntity(new UrlEncodedFormEntity(nvps,HTTP.UTF_8));
 		HttpResponse response = httpClient.execute(httpPost);
 	    int httpcode=response.getStatusLine().getStatusCode();	    
 	    if(httpcode==302){
@@ -153,7 +163,8 @@ public class LoginHelper {
 		nvps.add(new BasicNameValuePair("name", name));
 		nvps.add(new BasicNameValuePair("email", email));
 		nvps.add(new BasicNameValuePair("password",password));
-		httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		httpPost.addHeader("charset", HTTP.UTF_8);  
+		httpPost.setEntity(new UrlEncodedFormEntity(nvps,HTTP.UTF_8));
 		HttpResponse response = httpClient.execute(httpPost);
 		HttpResponse response2=null;
 	    int httpcode=response.getStatusLine().getStatusCode();
@@ -192,7 +203,8 @@ public class LoginHelper {
 		nvps.add(new BasicNameValuePair("name", name));
 		nvps.add(new BasicNameValuePair("password",password));
 		nvps.add(new BasicNameValuePair("newpassword",newPassword));
-		httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		httpPost.addHeader("charset", HTTP.UTF_8);  
+		httpPost.setEntity(new UrlEncodedFormEntity(nvps,HTTP.UTF_8));
 		HttpResponse response = httpClient.execute(httpPost);		
 		HttpResponse response2=null;
 	    int httpcode=response.getStatusLine().getStatusCode();
@@ -232,7 +244,8 @@ public class LoginHelper {
 		nvps.add(new BasicNameValuePair("password",password));
 		nvps.add(new BasicNameValuePair("newname",newName));
 		nvps.add(new BasicNameValuePair("newemail",newEmail));
-		httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+		httpPost.addHeader("charset", HTTP.UTF_8);  
+		httpPost.setEntity(new UrlEncodedFormEntity(nvps,HTTP.UTF_8));
 		HttpResponse response = httpClient.execute(httpPost);	
 		HttpResponse response2=null;
 	    int httpcode=response.getStatusLine().getStatusCode();
