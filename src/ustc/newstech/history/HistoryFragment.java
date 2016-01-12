@@ -201,7 +201,12 @@ public class HistoryFragment extends Fragment{
 	 @Override
 	  public void onResume() {
 	     super.onResume();
-	     //Log.d(TAG, "onResume HistoryFragment");	     
+	     //Log.d(TAG, "onResume HistoryFragment");	  
+	     if(getTask==null){	    	 	
+	    	 	newsInfoList.clear();
+				getTask=new GetNewsTask();
+				getTask.execute();
+			}
 	  }
 
 	  @Override

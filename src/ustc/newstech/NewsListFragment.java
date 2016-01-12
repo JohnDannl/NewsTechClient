@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -60,10 +61,10 @@ public class NewsListFragment extends Fragment{
 	private ImageFetcher mImageFetcher;
 	private int screenHeight=1080;
 	private NewsAdapter mNewsAdapter=null;	
-	private boolean isVolunteer=false;
 	private Map<String,Integer> dupMap=new HashMap<String,Integer>();
 	private NewsTechDBHelper dbHelper;
 	private DBTask dbTask=null;
+	private boolean isVolunteer=false;
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -320,7 +321,7 @@ public class NewsListFragment extends Fragment{
 				TextView loadtime=(TextView)holder.getView(R.id.news_ldtime);
 				Date date = new Date(newsInfoList.get(position).getCTime()*1000); 
 				//DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.CHINA);
 				loadtime.setText(sdf.format(date));
 				
 				CheckBox chkBox=(CheckBox)holder.getView(R.id.dup_check);
@@ -452,6 +453,10 @@ public class NewsListFragment extends Fragment{
 				dbTask=new DBTask();
 				dbTask.execute();
 			}
+	     if(isVolunteer!=isVolunteer()){
+	    	 isVolunteer=isVolunteer();
+	    	 if(mNewsAdapter!=null)mNewsAdapter.notifyDataSetChanged();
+	     }
 	  }
 
 	  @Override
@@ -459,4 +464,8 @@ public class NewsListFragment extends Fragment{
 	     super.onPause();
 	     //Log.d(TAG, "OnPause NewsListFragment");
 	  }
+	  private boolean isVolunteer(){
+	    	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			return sharedPref.getBoolean("volunteer", false);
+	    }
 }

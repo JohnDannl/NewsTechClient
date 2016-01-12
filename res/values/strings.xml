@@ -123,4 +123,5 @@
 	<string name="submit">提交</string>
 	<string name="failure_submit">提交失败，请重试</string>
 	<string name="success_submit">反馈成功</string>
+	<string name="exit_application">再按一次退出程序</string>
 </resources>

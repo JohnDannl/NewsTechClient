@@ -1,20 +1,15 @@
 package ustc.newstech;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import java.util.ArrayList;
+import java.util.List;
 import com.actionbarsherlock.view.Menu;
 
 import ustc.bitmap.imagecache.ImageCache;
 import ustc.bitmap.imagecache.ImageFetcher;
 import ustc.newstech.about.AboutFragment;
 import ustc.newstech.data.Constant;
-import ustc.newstech.database.NewsTechDBHelper;
 import ustc.newstech.discovery.DiscoveryFragment;
 import ustc.newstech.history.HistoryFragment;
-import ustc.newstech.login.LoginHelper;
 import ustc.newstech.login.VolunteerFragment;
 import ustc.utils.AndroidDeviceId;
 import ustc.utils.Network;
@@ -24,19 +19,25 @@ import ustc.utils.update.UpdateManager;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MainActivity extends BaseActivity {
 	private static final String TAG="XXXMainActivity";
 	private ImageFetcher mImageFetcher;
 	private static final String IMAGE_CACHE_DIR = "thumbs";
 	private UpdateManager mUpdateManager;
+	private long lastTime;
+	private List<Fragment> mFragList;
+	private FragmentManager fragmentManager;
+	private int lastIndex=-1;
+	private boolean isVolunteer=false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,9 @@ public class MainActivity extends BaseActivity {
 			mUpdateManager = new UpdateManager(this);	        
 	        mUpdateManager.checkUpdateInfo();
 		}
+        initVolunteer();
+        initFragmentManager();
+        selectItem(0);
 	}	
 	@Override
     protected void onNewIntent(Intent intent) {
@@ -105,6 +109,23 @@ public class MainActivity extends BaseActivity {
 	        //Log.d(TAG, "onDestroy()");
 	    }
 	    @Override
+	    protected void selectItem(int position){
+	    	super.selectItem(position); // toggle the left menu
+	    	if(position==lastIndex)return;	    		    	
+	    	Fragment mFragment = fragmentManager.findFragmentByTag(position + "");
+	    	FragmentTransaction mTrans=fragmentManager.beginTransaction();
+	    	if (mFragment == null) {
+				mTrans.add(R.id.content_frame,
+						mFragList.get(position), "" + position);
+				//Log.d(TAG, "new fragment "+position);
+			}
+	    	mTrans.show(mFragList.get(position));
+	    	if(lastIndex!=-1)mTrans.hide(mFragList.get(lastIndex));
+	    	mTrans.commit();
+	    	//Log.d(TAG, lastIndex+":"+position);	    	
+	    	lastIndex=position;
+	    }
+	    /*@Override
 	    protected void selectItem(int position){
 	    	super.selectItem(position);
 	    	// update the main content by replacing fragments
@@ -160,7 +181,7 @@ public class MainActivity extends BaseActivity {
 	    	        break;
 	    	}   
 
-	    }
+	    }*/
 	    public ImageFetcher getImageFetcher(){
 			return mImageFetcher;
 		}
@@ -169,8 +190,10 @@ public class MainActivity extends BaseActivity {
 	            String query = intent.getStringExtra(SearchManager.QUERY);
 	            //use the query to search your data somehow
 	            if(query!=null){
+	            	/*DiscoveryFragment discFrag=(DiscoveryFragment)getSupportFragmentManager()
+	            			.findFragmentByTag(DiscoveryFragment.TAG);*/
 	            	DiscoveryFragment discFrag=(DiscoveryFragment)getSupportFragmentManager()
-	            			.findFragmentByTag(DiscoveryFragment.TAG);
+	            			.findFragmentByTag("1");
 	            	if(discFrag==null)return;
 	            	discFrag.doNewsSearch(query);
 	            }            
@@ -181,5 +204,35 @@ public class MainActivity extends BaseActivity {
 			 if(userId==null)userId= AndroidDeviceId.getUUId(this);
 			 if(userId==null)userId=Constant.pa_anonymous;
 			 return userId;
-		 }		    
+		 }	
+	    private void initFragmentManager(){
+	    	mFragList=new ArrayList<Fragment>();
+	    	mFragList.add(new HomePageFragment());
+	    	mFragList.add(new DiscoveryFragment());
+	    	mFragList.add(new VolunteerFragment());
+	    	mFragList.add(new HistoryFragment());
+	    	mFragList.add(new AboutFragment());	    	
+	    	
+	    	fragmentManager = getSupportFragmentManager();	    	
+	    }
+	    @Override
+		public void onBackPressed() {
+			// get the time of the click
+			long currentTime = System.currentTimeMillis();
+			long dTime = currentTime - lastTime;
+			if (dTime < 2000) {
+				finish();
+			} else {
+				Toast.makeText(this,R.string.exit_application,Toast.LENGTH_SHORT).show();
+				lastTime = currentTime;
+			}
+		}
+	    private void initVolunteer(){
+	    	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+			isVolunteer=sharedPref.getBoolean("volunteer", false);	
+	    }
+	    private boolean isVolunteer(){
+	    	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+			return sharedPref.getBoolean("volunteer", false);
+	    }
 }

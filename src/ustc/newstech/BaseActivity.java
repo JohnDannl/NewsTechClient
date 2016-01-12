@@ -75,7 +75,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 		//getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		//getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_drawer));
         //getActionBar().setHomeButtonEnabled(false);   
-		selectItem(0);
+		//selectItem(0);
 	}
 	public void setOnBtnClearListener(OnClickListener listener){
 		btn_clear.setOnClickListener(listener);
